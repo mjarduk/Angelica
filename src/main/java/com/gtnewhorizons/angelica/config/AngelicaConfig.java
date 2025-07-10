@@ -68,6 +68,11 @@ public class AngelicaConfig {
     @Config.RequiresMcRestart
     public static boolean enableNotFineFeatures;
 
+    @Config.Comment("Enable Heretic VR")
+    @Config.DefaultBoolean(true)
+    @Config.RequiresMcRestart
+    public static boolean enableHeretic;
+
     @Config.Comment("Tweak F3 screen to be closer to modern versions. [From ArchaicFix]")
     @Config.DefaultBoolean(true)
     public static boolean modernizeF3Screen;
