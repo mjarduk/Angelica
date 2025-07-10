@@ -1,6 +1,8 @@
 package com.gtnewhorizons.angelica.mixins.early.heretic.gui;
 
 import com.seibel.distanthorizons.common.wrappers.gui.TexturedButtonWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
@@ -9,6 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import ru.marduk.heretic.gui.VRConfigScreen;
 
 /**
  * Adds a small button next to difficulty for VR settings
@@ -29,7 +32,7 @@ public class MixinVROptions extends GuiScreen {
                 // Width and height of the button
                 20, 20,
                 // Offset
-                0, 0, 0,
+                0, 0, 20,
                 // Some textuary stuff
                 ICON_TEXTURE, 20, 20,
                 // Create the button and tell it where to go
@@ -37,5 +40,13 @@ public class MixinVROptions extends GuiScreen {
                 BUTTON_ID,
                 // Add a title to the button
                 "VR" /* ModInfo.ID + ".title" */)));
+    }
+
+    @Inject(at = @At("HEAD"), method = "actionPerformed", cancellable = true)
+    private void onAction(GuiButton button, CallbackInfo ci) {
+        if (button.id == BUTTON_ID) {
+            Minecraft.getMinecraft().displayGuiScreen(new VRConfigScreen());
+            ci.cancel();
+        }
     }
 }
