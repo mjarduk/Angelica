@@ -78,6 +78,25 @@
       "requiredMods": [],
       "dependencies": [],
       "dependants": []
+    },
+    {
+      "modid": "heretic",
+      "name": "Heretic",
+      "description": "Have you ever wondered \"can you play GT:NH with VR?\"\nWell thou'st has their answer here",
+      "version": "1.0.0-alpha-beta-pleasedontusethisyet",
+      "mcversion": "1.7.10",
+      "url": "",
+      "updateUrl": "",
+      "authorList": [
+        "mjarduk"
+      ],
+      "credits": "uhh idk yet have yet to fill it out",
+      "logoFile": "",
+      "screenshots": [],
+      "parent": "",
+      "requiredMods": [],
+      "dependencies": [],
+      "dependants": []
     }
   ]
 }

@@ -1,1 +1,5 @@
-heretic.options.toggle=Toggle Heretic
+heretic.options.toggle=Heretic - %s
+heretic.options.logs=Logs
+heretic.options.on=On
+heretic.options.off=Off
+heretic.options.configure=Configure Heretic

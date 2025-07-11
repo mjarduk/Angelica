@@ -39,6 +39,7 @@ lwjgl3 {
         modules.add("lwjgl")
         modules.add("lwjgl-glfw")
         modules.add("lwjgl-opengl")
+        modules.add("lwjgl-openxr")
     }
 }
 

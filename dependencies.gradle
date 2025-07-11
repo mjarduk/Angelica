@@ -133,5 +133,4 @@ dependencies {
     shadowImplementation("org.lwjgl:lwjgl-jawt:3.3.3") {
          exclude group: "org.lwjgl", module: "lwjgl"
     }
-    shadowImplementation("org.lwjgl:lwjgl-openxr:3.3.3")
 }

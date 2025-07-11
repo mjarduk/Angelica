@@ -1,26 +1,45 @@
-package ru.marduk.heretic.gui;
+package ru.marduk.heretic.client.gui;
 
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.lang3.text.WordUtils;
 import org.lwjgl.opengl.GL11;
+import ru.marduk.heretic.client.HMDService;
+import ru.marduk.heretic.client.gui.config.HereticGuiConfig;
 
 import java.util.function.Consumer;
 
-public class VRConfigScreen extends GuiScreen {
+public class VRMenuScreen extends GuiScreen {
     private static final ResourceLocation WIDGETS = new ResourceLocation("heretic", "textures/widgets.png");
+    private static final HMDService HMD = HMDService.INSTANCE;
+
     private final Int2ObjectMap<Consumer<GuiButton>> buttonMap = new Int2ObjectOpenHashMap<>();
+
     private int logoAnim = 0;
-    private GuiLabel errorLabel;
 
     @Override
     public void initGui() {
-        addButton(new GuiButton(1, this.width / 2 - 100, this.height / 3 + 100, I18n.format("heretic.options.toggle")), button -> {
+        addButton(new GuiButton(1, this.width / 2 - 100, this.height / 3 + 60, getStatusDisplayText()), button -> {
+            if (HMD.isAreWeVRYet())
+                HMD.initHMD();
+            else
+                HMD.stopHMD();
 
+            button.displayString = getStatusDisplayText();
+        });
+        buttonList.getFirst().enabled = HMD.canWeVRToBeginWith();
+
+        addButton(new GuiButton(2, this.width / 2 - 100, this.height / 3 + 85, I18n.format("heretic.options.configure")), button -> {
+            try {
+                Minecraft.getMinecraft().displayGuiScreen(new HereticGuiConfig(this));
+            } catch (ConfigException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -30,7 +49,9 @@ public class VRConfigScreen extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         drawLogo();
-        drawErrorFrame();
+        if (!HMD.canWeVRToBeginWith()) {
+            this.drawCenteredString(this.fontRendererObj, HMD.whyCantWeVR(), width / 2, height / 3 + 45, 0xFFBB0000);
+        }
     }
 
     @Override
@@ -43,15 +64,6 @@ public class VRConfigScreen extends GuiScreen {
         buttonMap.put(button.id, callback);
     }
 
-    private void drawErrorFrame() {
-        int x = (width / 2) - 75;
-        int y = (height / 2) + 50;
-
-        drawRect(x, y, x + 150, y + 175, 0xEFEFEFFF);
-        drawRect(x + 1, y + 1, x + 149, y + 174, Integer.MIN_VALUE);
-        // this.fontRendererObj.drawSplitString();
-    }
-
     private void drawLogo() {
         mc.getTextureManager().bindTexture(WIDGETS);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -62,5 +74,9 @@ public class VRConfigScreen extends GuiScreen {
 
         logoAnim++;
         if (logoAnim == 5) logoAnim = 0;
+    }
+
+    private String getStatusDisplayText() {
+        return I18n.format("heretic.options.toggle", I18n.format(HMD.isAreWeVRYet() ? "heretic.options.on" : "heretic.options.off"));
     }
 }

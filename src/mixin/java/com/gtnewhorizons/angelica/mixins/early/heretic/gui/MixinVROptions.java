@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import ru.marduk.heretic.gui.VRConfigScreen;
+import ru.marduk.heretic.client.gui.VRMenuScreen;
 
 /**
  * Adds a small button next to difficulty for VR settings
@@ -45,7 +45,7 @@ public class MixinVROptions extends GuiScreen {
     @Inject(at = @At("HEAD"), method = "actionPerformed", cancellable = true)
     private void onAction(GuiButton button, CallbackInfo ci) {
         if (button.id == BUTTON_ID) {
-            Minecraft.getMinecraft().displayGuiScreen(new VRConfigScreen());
+            Minecraft.getMinecraft().displayGuiScreen(new VRMenuScreen());
             ci.cancel();
         }
     }
