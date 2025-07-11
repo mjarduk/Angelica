@@ -25,7 +25,7 @@ public class VRMenuScreen extends GuiScreen {
     @Override
     public void initGui() {
         addButton(new GuiButton(1, this.width / 2 - 100, this.height / 3 + 60, getStatusDisplayText()), button -> {
-            if (HMD.isAreWeVRYet())
+            if (!HMD.isAreWeVRYet())
                 HMD.initHMD();
             else
                 HMD.stopHMD();
@@ -49,7 +49,7 @@ public class VRMenuScreen extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         drawLogo();
-        if (!HMD.canWeVRToBeginWith()) {
+        if (!HMD.whyCantWeVR().isEmpty()) {
             this.drawCenteredString(this.fontRendererObj, HMD.whyCantWeVR(), width / 2, height / 3 + 45, 0xFFBB0000);
         }
     }

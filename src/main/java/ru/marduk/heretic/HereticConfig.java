@@ -6,6 +6,10 @@ public class HereticConfig {
     @Config.Comment("Debugging options used for development.")
     @Config(modid = "heretic", category = "debug_options")
     public static class DebugOptions {
+        @Config.Comment("Whether to use EGL to bind OpenXR with OpenGL")
+        @Config.DefaultBoolean(false)
+        public static boolean useEGL;
+
         @Config.Comment("Enable error checking for most OpenXR calls")
         @Config.DefaultBoolean(true)
         public static boolean errorChecking;
